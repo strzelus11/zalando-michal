@@ -29,7 +29,7 @@ select {
 }
 
 input:disabled {
-    @apply bg-color-800/20 cursor-not-allowed
+	@apply bg-color-800/20 cursor-not-allowed;
 }
 
 label {
@@ -47,4 +47,12 @@ label {
 ::-webkit-scrollbar-thumb {
 	background: var(--primary);
 	border-radius: 20px;
+}
+
+.full {
+	min-height: calc(100vh - 60px);
+}
+
+button.primary {
+	@apply bg-primary text-white;
 }
