@@ -38,14 +38,14 @@ const Header = () => {
 					<Link
 						className={`
 							${pathname.includes("products") ? activeLink : inactiveLink}`}
-						href={"/"}
+						href={"/products"}
 					>
 						All products
 					</Link>
 				</nav>
 				<nav className="flex gap-10 items-center">
-                    <SearchButton />
-                    <UserButton />
+					<SearchButton />
+					<UserButton />
 					<Link href={"/cart"} className="group">
 						<div className="flex items-center h-[60px] relative transition-all delay-150 duration-300 group-hover:text-primary">
 							<CartIcon className="size-7" />

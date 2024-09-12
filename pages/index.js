@@ -9,7 +9,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
 	const session = useSession();
-	console.log(session);
 	return (
 		<Layout>
 			<div className="w-full h-full flex justify-center items-center">
