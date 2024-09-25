@@ -1,9 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 import ImageInput from "./ImageInput";
+import ChooseAdd from "./ChooseAdd";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ProductForm({
 	title: existingTitle,
@@ -32,8 +35,64 @@ export default function ProductForm({
 
 	const router = useRouter();
 	const session = useSession();
+
+	useEffect(() => {
+		fetchCategories();
+		fetchColors();
+		fetchSizes();
+	}, []);
+
+	function fetchCategories() {
+		axios.get("/api/categories").then((response) => {
+			setCategories(response.data);
+		});
+	}
+
+	function fetchColors() {
+		axios.get("/api/colors").then((response) => {
+			setColors(response.data);
+		});
+	}
+
+	function fetchSizes() {
+		axios.get("/api/sizes").then((response) => {
+			setSizes(response.data);
+		});
+	}
+
+	async function saveProduct(e) {
+		e.preventDefault();
+		if (session.status === "authenticated") {
+			if (price === "" || title === "") {
+				toast.error("Fill all the necessary fields.");
+			} else {
+				const data = {
+					email: session?.data?.user.email,
+					title,
+					description,
+					price,
+					images,
+					category,
+					color,
+					size,
+					used,
+				};
+				if (_id) {
+					await axios.put("/api/products", { ...data, _id });
+				} else {
+					await axios.post("/api/products", data);
+				}
+				router.push("/products");
+				toast.success("Product saved!");
+			}
+		} else {
+			toast.error("Authenticate to add a product.");
+		}
+	}
+
 	return (
 		<motion.form
+			onSubmit={saveProduct}
 			variants={fadeIn("up", "spring", 0.2, 1)}
 			initial="hidden"
 			whileInView="show"
@@ -53,6 +112,36 @@ export default function ProductForm({
 						<option value={true}>Used</option>
 						<option value={false}>New</option>
 					</select>
+					<ChooseAdd
+						item={category}
+						setItem={setCategory}
+						items={categories}
+						newItem={newCategory}
+						setNewItem={setNewCategory}
+						fetchItems={fetchCategories}
+						itemName="category"
+						api="categories"
+					/>
+					<ChooseAdd
+						item={color}
+						setItem={setColor}
+						items={colors}
+						newItem={newColor}
+						setNewItem={setNewColor}
+						fetchItems={fetchColors}
+						itemName="color"
+						api="colors"
+					/>
+					<ChooseAdd
+						item={size}
+						setItem={setSize}
+						items={sizes}
+						newItem={newSize}
+						setNewItem={setNewSize}
+						fetchItems={fetchSizes}
+						itemName="size"
+						api="sizes"
+					/>
 					<label>Description</label>
 					<textarea
 						placeholder="Description"
@@ -67,7 +156,7 @@ export default function ProductForm({
 						onChange={(e) => setPrice(e.target.value)}
 					/>
 				</div>
-				<ImageInput />
+				<ImageInput images={images} setImages={setImages} />
 			</div>
 			<button
 				type="submit"

@@ -1,3 +1,5 @@
+import mongoose, { Schema, model, models } from "mongoose";
+
 const ProductSchema = new Schema(
 	{
 		user: { type: mongoose.Types.ObjectId, ref: "User", required: true },

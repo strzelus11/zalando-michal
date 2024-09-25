@@ -1,9 +1,12 @@
+import Spinner from "@/components/Spinner";
 import Layout from "@/components/layout/Layout";
+import { mongooseConnect } from "@/lib/mongoose";
+import { Product } from "@/models/Product";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
-export default function ProductsPage() {
+export default function ProductsPage({ products }) {
 	const session = useSession();
 	const router = useRouter();
 
@@ -35,7 +38,29 @@ export default function ProductsPage() {
 						Add a product
 					</button>
 				</div>
+				<div className="flex flex-col sm:mx-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+					{
+						session.status === "authenticated" &&
+							//     loading ? (
+							// 	<Spinner />
+							// ) : (
+							products?.length > 0 &&
+							products.map((product, index) => <div>{product.title}</div>)
+						// )
+					}
+				</div>
 			</div>
 		</Layout>
 	);
+}
+
+export async function getServerSideProps() {
+	await mongooseConnect();
+	const products = await Product.find();
+
+	return {
+		props: {
+			products: JSON.parse(JSON.stringify(products)),
+		},
+	};
 }
