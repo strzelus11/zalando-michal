@@ -1,5 +1,6 @@
 import Spinner from "@/components/Spinner";
 import Layout from "@/components/layout/Layout";
+import ProductCard from "@/components/layout/ProductCard";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import { useSession } from "next-auth/react";
@@ -45,7 +46,9 @@ export default function ProductsPage({ products }) {
 							// 	<Spinner />
 							// ) : (
 							products?.length > 0 &&
-							products.map((product, index) => <div>{product.title}</div>)
+							products.map((product, index) => (
+								<ProductCard key={product._id} index={index} {...product} />
+							))
 						// )
 					}
 				</div>

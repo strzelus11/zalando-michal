@@ -34,7 +34,7 @@ export default function ChooseAdd({
 		<div className="flex gap-1 items-center">
 			<div className="flex-1">
 				<label>Choose {itemName}</label>
-				<select value={item} onChange={(e) => setItem(e.target.value)}>
+				<select value={item || ""} onChange={(e) => setItem(e.target.value)}>
 					<option value="">No {itemName}</option>
 					{items.length > 0 &&
 						items.map((item) => (

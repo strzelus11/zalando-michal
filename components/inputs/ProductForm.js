@@ -76,7 +76,7 @@ export default function ProductForm({
 					color,
 					size,
 					used,
-				};
+                };
 				if (_id) {
 					await axios.put("/api/products", { ...data, _id });
 				} else {
