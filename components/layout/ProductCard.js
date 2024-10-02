@@ -8,8 +8,9 @@ import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 
 export default function ProductCard({
-	_id,
-    title,
+    _id,
+    setConfirm,
+	title,
 	images,
 	price,
 	user,
@@ -43,7 +44,7 @@ export default function ProductCard({
 						<h3 className="text-lg hover:text-primary hover:decoration-primary decoration-gray-100 underline transition-all delay-150 duration-300">
 							{title}
 						</h3>
-                    </Link>
+					</Link>
 					{session?.data?.user.id !== user && (
 						<FaRegHeart className="size-5 mb-3 cursor-pointer text-red-600" />
 					)}
@@ -58,11 +59,11 @@ export default function ProductCard({
 					) : (
 						<div className="flex gap-3 items-center">
 							<Link href={"/products/edit/" + _id}>
-								<button className="text-white bg-gray-500">
+								<button className="cancel">
 									<EditIcon className="size-5" />
 								</button>
 							</Link>
-							<button className="text-white bg-red-500">
+							<button onClick={() => setConfirm(true)} className="delete">
 								<DeleteIcon className="size-5" />
 							</button>
 						</div>

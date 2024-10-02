@@ -38,6 +38,14 @@ button.secondary {
 	@apply bg-white text-primary border-2 border-primary;
 }
 
+button.delete {
+	@apply bg-red-500 text-white;
+}
+
+button.cancel {
+	@apply bg-gray-500 text-white;
+}
+
 input,
 textarea,
 select {
@@ -56,7 +64,7 @@ label {
 	@apply rounded-lg bg-color-100 shadow-xl;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
 	width: 5px;
 }
 
@@ -71,4 +79,4 @@ label {
 
 .full {
 	min-height: calc(100vh - 60px);
-}
+} */
