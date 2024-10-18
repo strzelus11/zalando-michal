@@ -2,6 +2,7 @@ import Backdrop from "@/components/Backdrop";
 import Spinner from "@/components/Spinner";
 import Layout from "@/components/layout/Layout";
 import ProductCard from "@/components/layout/ProductCard";
+import useWishlist from "@/hooks/useWishlist";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import axios from "axios";
@@ -16,6 +17,8 @@ export default function ProductsPage({ products }) {
 
 	const session = useSession();
 	const router = useRouter();
+
+	const { wishlist, setWishlist, loading } = useWishlist();
 
 	function handleAddClick() {
 		if (session.status === "authenticated") {
@@ -58,34 +61,34 @@ export default function ProductsPage({ products }) {
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
 								fill="currentColor"
-								className="size-5"
+								className="size-6"
 							>
 								<path
 									fillRule="evenodd"
-									d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+									d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z"
 									clipRule="evenodd"
 								/>
+								<path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
 							</svg>
 							Add a product
 						</button>
 					</div>
 					<div className="flex flex-col sm:mx-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-						{
-							// session.status === "authenticated" &&
-							//     loading ? (
-							// 	<Spinner />
-							// ) : (
+						{session.status === "authenticated" && loading ? (
+							<Spinner />
+						) : (
 							products?.length > 0 &&
-								products.map((product, index) => (
-									<ProductCard
-										key={product._id}
-										index={index}
-										setConfirm={() => setConfirm(product._id)}
-										{...product}
-									/>
-								))
-							// )
-						}
+							products.map((product, index) => (
+								<ProductCard
+									key={product._id}
+									index={index}
+									setConfirm={() => setConfirm(product._id)}
+									wishlist={wishlist}
+									setWishlist={setWishlist}
+									{...product}
+								/>
+							))
+						)}
 					</div>
 				</div>
 			</Layout>

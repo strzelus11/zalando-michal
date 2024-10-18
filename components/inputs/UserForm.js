@@ -1,6 +1,5 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import ImageInput from "./ImageInput";
 import EditableImage from "./EditableImage";
 
 export default function UserForm({ user, onSubmit, setFullImage }) {

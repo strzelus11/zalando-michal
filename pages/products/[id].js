@@ -1,7 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Category } from "@/models/Category";
-import { Color } from "@/models/Color";
 import { Product } from "@/models/Product";
 import { Size } from "@/models/Size";
 import { User } from "@/models/User";
@@ -22,7 +21,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 
-export default function ProductPage({ product, category, color, size, user }) {
+export default function ProductPage({ product, category, size, user }) {
 	const [confirm, setConfirm] = useState(false);
 
 	const router = useRouter();
@@ -92,16 +91,15 @@ export default function ProductPage({ product, category, color, size, user }) {
 											</div>
 										</div>
 									</div>
-									{color && (
+									{product.color && (
 										<div className="flex-1">
 											<label>Color</label>
 											<div className="flex gap-3 mt-1">
 												<div className="bg-white py-2 px-4 rounded-md flex gap-2 items-center justify-between shadow-md text-color-700 w-full">
 													<div
-														style={{ backgroundColor: `#${color.value}` }}
+														style={{ backgroundColor: product.color }}
 														className="rounded-full size-5"
 													></div>
-													{color.name}
 												</div>
 											</div>
 										</div>
@@ -179,7 +177,6 @@ export async function getServerSideProps(context) {
 	const { id } = context.query;
 	const product = await Product.findById(id);
 	const category = await Category.findById(product.category);
-	const color = await Color.findById(product.color);
 	const size = await Size.findById(product.size);
 	const user = await User.findById(product.user);
 
@@ -187,7 +184,6 @@ export async function getServerSideProps(context) {
 		props: {
 			product: JSON.parse(JSON.stringify(product)),
 			category: JSON.parse(JSON.stringify(category)),
-			color: JSON.parse(JSON.stringify(color)),
 			size: JSON.parse(JSON.stringify(size)),
 			user: JSON.parse(JSON.stringify(user)),
 		},

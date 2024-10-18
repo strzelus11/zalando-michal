@@ -1,15 +1,20 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import CartIcon from "../icons/CartIcon";
 import EditIcon from "../icons/EditIcon";
 import DeleteIcon from "../icons/DeleteIcon";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ProductCard({
-    _id,
-    setConfirm,
+	_id,
+	setConfirm,
+	wishlist,
+	setWishlist,
 	title,
 	images,
 	price,
@@ -17,6 +22,28 @@ export default function ProductCard({
 	index,
 }) {
 	const session = useSession();
+
+	console.log(wishlist);
+
+	async function likeProduct() {
+		if (session.status === "authenticated") {
+			await axios.post("/api/wishlist?_id=" + _id);
+			setWishlist((prev) => [...prev, { _id: _id }]);
+			toast.success("Product added to wishlist!");
+		} else {
+			toast.error("Not authenticated.");
+		}
+	}
+
+	async function unlikeProduct() {
+		if (session.status === "authenticated") {
+			await axios.delete("/api/wishlist?_id=" + _id);
+			setWishlist((prev) => prev.filter((p) => p._id !== _id));
+			toast.error("Product removed from wishlist!");
+		} else {
+			toast.error("Not authenticated.");
+		}
+	}
 
 	return (
 		<motion.div
@@ -45,9 +72,18 @@ export default function ProductCard({
 							{title}
 						</h3>
 					</Link>
-					{session?.data?.user.id !== user && (
-						<FaRegHeart className="size-5 mb-3 cursor-pointer text-red-600" />
-					)}
+					{session?.data?.user.id !== user &&
+						(wishlist.some((p) => p._id === _id) ? (
+							<FaHeart
+								onClick={unlikeProduct}
+								className="size-5 mb-3 cursor-pointer text-red-500"
+							/>
+						) : (
+							<FaRegHeart
+								onClick={likeProduct}
+								className="size-5 mb-3 cursor-pointer text-red-500"
+							/>
+						))}
 				</div>
 				<div className="flex gap-3 justify-between items-center mt-3">
 					<p className="text-2xl font-bold">${price}</p>

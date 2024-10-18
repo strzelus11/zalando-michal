@@ -1,6 +1,5 @@
 import UserIcon from "../icons/UserIcon";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/router";
 import { slideIn } from "@/utils/motion";
 import Link from "next/link";
 import { useState } from "react";
@@ -16,7 +15,10 @@ export default function UserButton() {
 		if (hoverTimeout) {
 			clearTimeout(hoverTimeout);
 		}
-		setInfoDiv(true);
+		const timeout = setTimeout(() => {
+			setInfoDiv(true);
+		}, 250);
+		setHoverTimeout(timeout);
 	};
 
 	const handleMouseLeaveIcon = () => {
