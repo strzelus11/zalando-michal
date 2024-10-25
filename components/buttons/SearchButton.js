@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function SearchButton() {
 	const [search, setSearch] = useState(false);
 	const [query, setQuery] = useState("");
-	const router = useRouter;
+	const router = useRouter();
 
 	function handleSearch(e) {
 		e.preventDefault();
@@ -53,7 +53,7 @@ export default function SearchButton() {
 							<input
 								type="text"
 								value={query}
-								onChange={() => setQuery(e.target.value)}
+								onChange={(e) => setQuery(e.target.value)}
 								placeholder="Search for products..."
 								className="py-1 px-2 mb-0 rounded-md"
 								autoFocus

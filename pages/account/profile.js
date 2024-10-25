@@ -42,7 +42,7 @@ export default function ProfilePage() {
 					<img className="rounded-lg max-h-[65vh]" src={user?.image} alt="" />
 				</Backdrop>
 			)}
-			<AccountLayout title="Your profile">
+			<AccountLayout title="My profile">
 				{loading ? (
 					<Spinner />
 				) : (

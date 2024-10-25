@@ -16,13 +16,16 @@ export default async function handle(req, res) {
 	if (req.method === "POST") {
 		try {
 			user.wishlist.push(_id);
+			await user.save();
 			res.status(200).json(user.wishlist);
+			console.log(user.wishlist);
 		} catch (error) {
 			res.status(500).json({ message: "Internal Server Error" });
 		}
 	}
 
 	if (req.method === "GET") {
+		const user = await User.findOne({ email }).populate("wishlist");
 		res.status(200).json(user.wishlist);
 	}
 

@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useContext } from "react";
+import { CartContext } from "@/hooks/CartContext";
 
 export default function ProductCard({
 	_id,
@@ -21,9 +23,8 @@ export default function ProductCard({
 	user,
 	index,
 }) {
+	const { addProduct } = useContext(CartContext);
 	const session = useSession();
-
-	console.log(wishlist);
 
 	async function likeProduct() {
 		if (session.status === "authenticated") {
@@ -43,6 +44,15 @@ export default function ProductCard({
 		} else {
 			toast.error("Not authenticated.");
 		}
+	}
+
+	function handleAddToCart() {
+		addProduct(_id);
+		const button = document.getElementById(index).querySelector(".primary");
+		button.classList.add("animate");
+		setTimeout(() => {
+			button.classList.remove("animate");
+		}, 1000);
 	}
 
 	return (
@@ -88,7 +98,7 @@ export default function ProductCard({
 				<div className="flex gap-3 justify-between items-center mt-3">
 					<p className="text-2xl font-bold">${price}</p>
 					{session?.data?.user.id !== user ? (
-						<button className="primary">
+						<button onClick={() => handleAddToCart()} className="primary">
 							<CartIcon className="size-5" />
 							Add to Cart
 						</button>

@@ -64,19 +64,14 @@ label {
 	@apply rounded-lg bg-color-100 shadow-xl;
 }
 
-/* ::-webkit-scrollbar {
-	width: 5px;
+table {
+    @apply w-full mt-5;
 }
 
-::-webkit-scrollbar-track {
-	box-shadow: inset 0 0 10px var(--secondary);
+table thead tr td {
+    @apply text-sm text-color-700 font-semibold uppercase
 }
 
-::-webkit-scrollbar-thumb {
-	background: var(--primary);
-	border-radius: 20px;
+table tr td {
+    @apply p-3
 }
-
-.full {
-	min-height: calc(100vh - 60px);
-} */
