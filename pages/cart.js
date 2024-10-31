@@ -6,6 +6,8 @@ import Spinner from "@/components/Spinner";
 import UserForm from "@/components/inputs/UserForm";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "@/hooks/CartContext";
+import Table from "@/components/layout/Table";
+import axios from "axios";
 
 function getFadeDirection() {
 	if (typeof window !== "undefined") {
@@ -17,6 +19,8 @@ function getFadeDirection() {
 export default function CartPage() {
 	const { cartProducts, clearCart } = useContext(CartContext);
 	const { user, loading } = useProfile();
+
+	const [products, setProducts] = useState([]);
 
 	const [fadeDirection, setFadeDirection] = useState(getFadeDirection());
 
@@ -32,6 +36,16 @@ export default function CartPage() {
 		};
 	}, []);
 
+	useEffect(() => {
+		if (cartProducts.length > 0) {
+			axios.post("/api/cart", { ids: cartProducts }).then((response) => {
+				setProducts(response.data);
+			});
+		} else {
+			setProducts([]);
+		}
+	}, [cartProducts]);
+
 	return (
 		<Layout>
 			<div className="flex justify-center p-0 sm:p-10">
@@ -45,6 +59,12 @@ export default function CartPage() {
 						{!cartProducts?.length && (
 							<h3 className="text-2xl font-bold">Your cart is empty.</h3>
 						)}
+						{products?.length > 0 && (
+							<>
+								<h3>Cart</h3>
+								<Table products={products} cartProducts={cartProducts} />
+							</>
+						)}
 					</motion.div>
 					<motion.div
 						variants={fadeIn("left", "spring", 0.3, 1)}
@@ -57,7 +77,7 @@ export default function CartPage() {
 							<Spinner />
 						) : (
 							<div className="w-full">
-								<UserForm user={user} />
+								<UserForm user={user} cartProducts={cartProducts} />
 							</div>
 						)}
 					</motion.div>

@@ -91,7 +91,7 @@ export default function ProductForm({
 			whileInView="show"
 			className="sm:px-5 flex flex-col items-start gap-5"
 		>
-			<div className="flex justify-center gap-10 items-start">
+			<div className="flex flex-col md:flex-row justify-center gap-10 items-start">
 				<div>
 					<label>Product name</label>
 					<input
@@ -141,21 +141,23 @@ export default function ProductForm({
 				</div>
 				<div className="flex flex-col items-start gap-5">
 					<ImageInput images={images} setImages={setImages} />
-						<label>Color</label>
-						<div className="flex gap-3">
-							<div
-								style={{ backgroundColor: color.hex }}
-								className="w-24 h-24 cursor-pointer rounded-lg border shadow-md"
+					<label className="flex gap-2">
+						Color
+						<div
+							style={{ backgroundColor: color.hex }}
+							className="rounded-full size-5"
+						></div>
+					</label>
+					<div className="flex gap-3">
+						<div className="w-[200px]">
+							<ColorPicker
+								color={color}
+								onChange={setColor}
+								hideInput
+								hideAlpha
 							/>
-							<div className="w-[200px]">
-                                <ColorPicker
-                                    color={color}
-                                    onChange={setColor}
-                                    hideInput
-                                    hideAlpha
-                                />
-                            </div>
 						</div>
+					</div>
 				</div>
 			</div>
 			<button

@@ -6,7 +6,7 @@ export default async function handle(req, res) {
 	await mongooseConnect();
 
 	if (method === "GET") {
-		res.json(await Category.find());
+		res.json(await Category.find().sort({ name: 1 }));
 	}
 
 	if (method === "POST") {
