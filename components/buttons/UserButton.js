@@ -4,12 +4,14 @@ import { slideIn } from "@/utils/motion";
 import Link from "next/link";
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
+import { useImage } from "@/hooks/useImage";
 
 export default function UserButton() {
 	const [infoDiv, setInfoDiv] = useState(false);
 	const [hoverTimeout, setHoverTimeout] = useState(null);
 
 	const session = useSession();
+	const { userImage, loading } = useImage();
 
 	const handleMouseEnterIcon = () => {
 		if (hoverTimeout) {
@@ -39,7 +41,17 @@ export default function UserButton() {
 				onMouseEnter={handleMouseEnterIcon}
 				onMouseLeave={handleMouseLeaveIcon}
 			>
-				<UserIcon className="size-7 cursor-pointer" />
+				{!loading && session.status !== loading && userImage ? (
+					<div className="size-8 rounded-full flex justify-center items-center border-2 border-white">
+						<img
+							className="w-full h-full object-cover rounded-full cursor-pointer"
+							src={userImage}
+							alt=""
+						/>
+					</div>
+				) : (
+					<UserIcon className="size-7 cursor-pointer" />
+				)}
 			</div>
 			<AnimatePresence>
 				{infoDiv && (

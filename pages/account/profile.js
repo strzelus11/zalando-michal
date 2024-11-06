@@ -2,6 +2,7 @@ import Backdrop from "@/components/Backdrop";
 import Spinner from "@/components/Spinner";
 import UserForm from "@/components/inputs/UserForm";
 import AccountLayout from "@/components/layout/AccountLayout";
+import { useImage } from "@/hooks/useImage";
 import useProfile from "@/hooks/useProfile";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -12,6 +13,7 @@ export default function ProfilePage() {
 	const [fullImage, setFullImage] = useState(false);
 
 	const { user, loading } = useProfile();
+	const { setUserImage } = useImage();
 
 	async function handleProfileUpdate(e, data) {
 		e.preventDefault();
@@ -24,8 +26,10 @@ export default function ProfilePage() {
 				},
 				body: JSON.stringify(data),
 			});
-			if (response.ok) resolve();
-			else reject();
+			if (response.ok) {
+				setUserImage(data.image);
+				resolve();
+			} else reject();
 		});
 
 		await toast.promise(savingPromise, {

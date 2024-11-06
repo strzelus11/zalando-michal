@@ -15,14 +15,18 @@ import Link from "next/link";
 import { format } from "date-fns";
 import DetailsTabs from "@/components/buttons/DetailsTabs";
 import ProductImages from "@/components/layout/ProductImages";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Backdrop from "@/components/Backdrop";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { CartContext } from "@/hooks/CartContext";
 
 export default function ProductPage({ product, category, size, user }) {
 	const [confirm, setConfirm] = useState(false);
+	const [fullImage, setFullImage] = useState(null);
+
+	const { addProduct } = useContext(CartContext);
 
 	const router = useRouter();
 	const session = useSession();
@@ -34,12 +38,23 @@ export default function ProductPage({ product, category, size, user }) {
 		router.push("/products");
 	}
 
+	function handleAddToCart() {
+		addProduct(product._id);
+		const button = document.querySelector(".primary");
+		button.classList.add("animate");
+		setTimeout(() => {
+			button.classList.remove("animate");
+		}, 1000);
+	}
+
 	return (
 		<>
 			<AnimatePresence>
 				{confirm && (
 					<Backdrop handleClose={() => setConfirm(false)}>
-						<h3>Are you sure you want to delete this product?</h3>
+						<h3 className="text-center">
+							Are you sure you want to delete this product?
+						</h3>
 						<div className="flex gap-3 justify-center">
 							<button onClick={handleDelete} className="delete">
 								Yes, delete!
@@ -48,6 +63,11 @@ export default function ProductPage({ product, category, size, user }) {
 								No, cancel.
 							</button>
 						</div>
+					</Backdrop>
+				)}
+				{fullImage && (
+					<Backdrop handleClose={() => setFullImage(null)}>
+						<img className="rounded-lg max-h-[65vh]" src={fullImage} alt="" />
 					</Backdrop>
 				)}
 			</AnimatePresence>
@@ -60,7 +80,10 @@ export default function ProductPage({ product, category, size, user }) {
 							whileInView="show"
 							className="w-full box p-5"
 						>
-							<ProductImages images={product.images} />
+							<ProductImages
+								images={product.images}
+								setFullImage={setFullImage}
+							/>
 						</motion.div>
 						<motion.div
 							variants={fadeIn("left", "spring", 0.3, 1)}
@@ -98,7 +121,7 @@ export default function ProductPage({ product, category, size, user }) {
 												<div className="bg-white py-2 px-4 rounded-md flex gap-2 items-center justify-between shadow-md text-color-700 w-full">
 													<div
 														style={{ backgroundColor: product.color }}
-														className="rounded-full size-5"
+														className="rounded-full size-6"
 													></div>
 												</div>
 											</div>
@@ -116,7 +139,7 @@ export default function ProductPage({ product, category, size, user }) {
 									)}
 								</div>
 								{session?.data?.user.id !== user._id && (
-									<button className="primary" onClick={() => {}}>
+									<button className="primary" onClick={handleAddToCart}>
 										<CartIcon className="size-7" />
 										Add to Cart
 									</button>

@@ -1,6 +1,6 @@
 import Spinner from "@/components/Spinner";
 import AccountLayout from "@/components/layout/AccountLayout";
-import ProductCard from "@/components/layout/WishlistProduct.js";
+import ProductCard from "@/components/layout/ProductCard";
 import useWishlist from "@/hooks/useWishlist";
 
 export default function ProfilePage() {
@@ -13,7 +13,7 @@ export default function ProfilePage() {
 			) : (
 				<>
 					{wishlist.length > 0 ? (
-						<div className="flex flex-col lg:grid grid-cols-2 gap-5 md:p-3">
+						<div className="flex flex-col sm:mx-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
 							{wishlist.map((product, index) => (
 								<ProductCard
 									key={product._id}

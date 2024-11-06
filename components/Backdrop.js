@@ -13,6 +13,7 @@ export default function Backdrop({ children, handleClose }) {
 				whileInView="show"
 				exit="exit"
 				className="bg-color-100 p-10 rounded-md relative"
+				onClick={(e) => e.stopPropagation()}
 			>
 				<button
 					onClick={handleClose}

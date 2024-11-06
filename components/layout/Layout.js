@@ -1,7 +1,7 @@
 import Header from "./Header";
 
 export default function Layout({ children, title }) {
-	return (
+    return (
 		<div className="flex flex-col min-h-[100vh]">
 			<Header />
 			<div className="min-h-screen py-[60px] flex justify-center">
