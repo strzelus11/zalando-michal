@@ -12,6 +12,7 @@ import CategoriesLink from "../buttons/CategoriesLink";
 import MobileCategories from "../buttons/MobileCategories";
 import { useSession } from "next-auth/react";
 import UserIcon from "../icons/UserIcon";
+import ChatButton from "../buttons/ChatButton";
 
 const links = ["Link1", "Link2", "Link3", "Link4"];
 
@@ -52,8 +53,9 @@ const Header = () => {
 					</Link>
 					<CategoriesLink inactiveLink={inactiveLink} activeLink={activeLink} />
 				</nav>
-				<nav className="flex gap-10 items-center">
+                <nav className="flex gap-10 items-center">
 					<SearchButton />
+                    <ChatButton />
 					<UserButton />
 					<Link href={"/cart"}>
 						<div className="flex items-center h-[60px] relative transition-all delay-150 duration-300">
