@@ -15,7 +15,7 @@ export default function SearchButton() {
 	}
 
 	return (
-		<div className="relative flex items-center justify-center w-[300px]">
+		<div className="relative flex items-center justify-center sm:w-[300px]">
 			<AnimatePresence mode="wait">
 				{!search ? (
 					<motion.div

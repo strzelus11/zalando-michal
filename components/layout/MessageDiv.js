@@ -36,7 +36,7 @@ export default function MessageDiv({
 					{conversation.name || conversation.email}
 				</h4>
 				<div className="flex justify-between items-center">
-					<p className="text-sm text-gray-500">
+					<p className="text-sm text-gray-500 max-w-[180px] truncate">
 						{conversation.latestMessage.sender._id === user && "You:"}{" "}
 						{conversation.latestMessage.content}
 					</p>

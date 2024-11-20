@@ -19,14 +19,14 @@ export default function ChatPage() {
 	const [activeConversation, setActiveConversation] = useState(null);
 
 	const session = useSession();
-	const userId = session?.data?.user.id;
+    const userId = session?.data?.user.id;
 
-	async function sendMessage(e) {
+	async function sendMessage(e, messageContent = content) {
 		e.preventDefault();
 		try {
 			const response = await axios.post("/api/messages", {
 				recipient,
-				content,
+				content: messageContent,
 			});
 			if (response.status === 201) {
 				setContent("");
@@ -56,9 +56,9 @@ export default function ChatPage() {
 					});
 			}
 		}
-	}, [userId, activeConversation, reload]);
-
-	console.log(messages);
+    }, [userId, activeConversation, reload]);
+    
+    console.log(messages)
 
 	return (
 		<>
@@ -94,7 +94,7 @@ export default function ChatPage() {
 				</Backdrop>
 			)}
 			<Layout>
-				<div className="w-full h-full flex justify-center">
+				<div className="w-full h-[81vh] flex justify-center">
 					<div className="rounded-xl flex shadow-xl bg-white w-[80%]">
 						<aside className="h-full rounded-l-xl bg-color-50 border-r border-color-400 min-w-[30%]">
 							<div className="flex items-center justify-between p-5">
@@ -139,6 +139,7 @@ export default function ChatPage() {
 							setActiveConversation={setActiveConversation}
 							messages={messages}
 							sendMessage={sendMessage}
+							reload={reload}
 						/>
 					</div>
 				</div>
