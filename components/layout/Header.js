@@ -105,8 +105,9 @@ const Header = () => {
 							exit="exit"
 							className="fixed z-10 top-0 left-0 h-screen bg-color-800 w-[70%] px-[20px]"
 						>
-							<div className="absolute top-5 left-5">
+							<div className="absolute flex gap-7 items-center top-5 left-5">
 								<MobileUser setNavOpen={setNavOpen} />
+								<ChatButton />
 							</div>
 							<div
 								onClick={() => setNavOpen(false)}

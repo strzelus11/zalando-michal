@@ -54,8 +54,8 @@ export default function Chat({
 					conversations.find((c) => c._id === activeConversation)?.email}
 			</h3>
 			<div className="p-3 flex flex-col gap-2 flex-grow overflow-auto">
-				{messages.map((message) => (
-					<div className="flex flex-col">
+				{messages.map((message, index) => (
+					<div key={index} className="flex flex-col">
 						<div
 							onClick={() => handleTimeClick(message._id)}
 							key={message._id}

@@ -7,10 +7,11 @@ const UserSchema = new Schema(
 		password: { type: String },
 		image: { type: String },
 		wishlist: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+		notifications: { type: Number, default: 0 },
 	},
 	{
 		timestamps: true,
 	}
 );
 
-export const User = models?.User || model("User", UserSchema)
+export const User = models?.User || model("User", UserSchema);

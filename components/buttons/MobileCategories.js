@@ -19,8 +19,8 @@ export default function MobileCategories({
 		axios.get("/api/categories").then((response) => {
 			setCategories(response.data);
 		});
-    }, []);
-    
+	}, []);
+
 	return (
 		<>
 			<div onClick={() => setShowCategories((prev) => !prev)}>Categories</div>
@@ -29,6 +29,7 @@ export default function MobileCategories({
 					<div className="pl-3 flex flex-col gap-5">
 						{categories?.map((category, index) => (
 							<motion.div
+								key={index}
 								variants={slideIn("left", "spring", 0.1 * index, 1, true)}
 								initial="hidden"
 								whileInView="show"

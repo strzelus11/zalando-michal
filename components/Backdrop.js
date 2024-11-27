@@ -1,18 +1,20 @@
-import { motion } from "framer-motion";
-import { fadeIn } from "@/utils/motion";
+import { backInOut, motion } from "framer-motion";
 
 export default function Backdrop({ children, handleClose }) {
 	return (
-		<div
+		<motion.div
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
 			onClick={handleClose}
 			className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
 		>
 			<motion.div
-				variants={fadeIn("down", "spring", 0, 1)}
-				initial="hidden"
-				whileInView="show"
-				exit="exit"
-				className="bg-color-100 p-10 rounded-md relative"
+				initial={{ opacity: 0, scale: 0, rotate: -20 }}
+				animate={{ opacity: 1, scale: 1, rotate: 0 }}
+				exit={{ opacity: 0, scale: 0, rotate: 20 }}
+				transition={{ ease: backInOut, duration: 0.5 }}
+				className="bg-color-100 p-5 sm:p-10 rounded-md relative max-w-[20rem] sm:min-w-[30rem]"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<button
@@ -34,6 +36,6 @@ export default function Backdrop({ children, handleClose }) {
 				</button>
 				{children}
 			</motion.div>
-		</div>
+		</motion.div>
 	);
 }

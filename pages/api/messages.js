@@ -2,6 +2,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import { Message } from "@/models/Message";
+import { User } from "@/models/User";
 
 export default async function handle(req, res) {
 	const { method } = req;
@@ -78,6 +79,10 @@ export default async function handle(req, res) {
 				recipient,
 				content,
 			});
+
+			const notifiedUser = await User.findById(recipient);
+			notifiedUser.notifications += 1;
+			notifiedUser.save();
 
 			return res.status(201).json(message);
 		}
