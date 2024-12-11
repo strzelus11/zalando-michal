@@ -4,7 +4,6 @@ import { UserInfo } from "@/models/UserInfo";
 import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 import { authOptions } from "./auth/[...nextauth]";
-import { userInfo } from "os";
 
 export default async function handle(req, res) {
 	await mongooseConnect();
@@ -13,7 +12,7 @@ export default async function handle(req, res) {
 		const session = await getSession({ req });
 		const email = session?.user?.email;
 		if (!email) {
-			res.json({});
+			return res.json({});
 		}
 
 		const user = await User.findOne({ email }).lean();

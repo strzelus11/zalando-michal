@@ -14,16 +14,19 @@ export default function ChatButton() {
 	function handleAddClick() {
 		if (session.status === "authenticated") {
 			router.push("/chat");
+			axios.put("/api/read");
 		} else {
 			toast.error("Log in to see your chats.");
 		}
 	}
 
 	useEffect(() => {
-		axios
-			.get("/api/users?id=" + session?.data?.user.id)
-			.then((response) => setUser(response.data));
-	}, []);
+		if (session.status === "authenticated") {
+			axios
+				.get("/api/users?id=" + session?.data?.user.id)
+				.then((response) => setUser(response.data));
+		}
+	}, [session.status]);
 
 	return (
 		<div onClick={handleAddClick} className="cursor-pointer relative">
@@ -42,7 +45,7 @@ export default function ChatButton() {
 				/>
 			</svg>
 			<div className="absolute -top-2 left-4 bg-color-800 text-white border-2 border-white rounded-full items-center justify-center flex size-5 text-xs transition delay-150 duration-300 group-hover:text-primary group-hover:border-primary">
-				{0}
+				{user?.notifications}
 			</div>
 		</div>
 	);

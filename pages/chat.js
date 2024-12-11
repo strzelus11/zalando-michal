@@ -21,6 +21,8 @@ export default function ChatPage() {
 	const [conversations, setConversations] = useState([]);
 	const [messages, setMessages] = useState([]);
 	const [activeConversation, setActiveConversation] = useState(null);
+	const [activeConversationMobile, setActiveConversationMobile] =
+		useState(null);
 
 	const session = useSession();
 	const userId = session?.data?.user.id;
@@ -58,6 +60,7 @@ export default function ChatPage() {
 					.then((response) => {
 						setMessages(response.data.conversationMessages);
 					});
+				setRecipient(activeConversation);
 			}
 		}
 	}, [userId, activeConversation, reload]);
@@ -134,8 +137,8 @@ export default function ChatPage() {
 							<ChatMobile
 								conversations={conversations}
 								setConversations={setConversations}
-								activeConversation={activeConversation}
-								setActiveConversation={setActiveConversation}
+								activeConversation={activeConversationMobile}
+								setActiveConversation={setActiveConversationMobile}
 								messages={messages}
 								sendMessage={sendMessage}
 								reload={reload}
@@ -168,8 +171,8 @@ export default function ChatPage() {
 						<AsideMobile
 							setCreateMessage={setCreateMessage}
 							conversations={conversations}
-							activeConversation={activeConversation}
-							setActiveConversation={setActiveConversation}
+							activeConversation={activeConversationMobile}
+							setActiveConversation={setActiveConversationMobile}
 							setRecipient={setRecipient}
 							setChatOpen={setChatOpen}
 						/>

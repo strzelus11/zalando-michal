@@ -67,6 +67,7 @@ export default async function handle(req, res) {
 
 		if (method === "POST") {
 			const { recipient, content } = req.body;
+			console.log(content);
 
 			if (!recipient || !content) {
 				return res
