@@ -23,7 +23,7 @@ export default function AdminPage() {
 			return;
 		}
 		const timeoutId = setTimeout(() => {
-			if (!session?.user?.email || session.user.email !== admin) {
+			if (!session?.user?.email && session.user.email !== admin) {
 				router.push("/");
 			}
 		}, 500);

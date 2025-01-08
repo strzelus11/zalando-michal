@@ -31,7 +31,8 @@ const Header = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const session = useSession();
+    const session = useSession();
+    console.log(session)
 
 	return (
 		<>
@@ -56,7 +57,7 @@ const Header = () => {
 				</nav>
 				<nav className="flex gap-10 items-center">
 					<SearchButton />
-					<ChatButton />
+					{session?.status === "authenticated" && <ChatButton />}
 					<UserButton />
 					<Link href={"/cart"}>
 						<div className="flex items-center h-[60px] relative transition-all delay-150 duration-300">
